@@ -1,377 +1,461 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
-import { Link } from '@inertiajs/react';
-import { ChevronDown, Menu, Search, ShoppingCart, User, X } from 'lucide-react';
+
+import { login } from '@/routes';
+import { ChevronDown, Minus, Plus, Search, ShoppingBag, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-const NAVIGATION_LINKS = [
-    { href: '/mens', label: "Men's" },
-    { href: '/womens', label: "Women's" },
-    { href: '/accessories', label: 'Accessories' },
-    { href: '/kids', label: 'Kids' },
-];
+import { Button } from '@/components/ui/button';
 
-const CATEGORIES = [
-    'Electronics',
-    'Clothing',
-    'Home & Garden',
-    'Sports & Outdoor',
-    'Beauty & Health',
-    'Toys & Games',
+import { Input } from '@/components/ui/input';
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/components/ui/sheet';
+import { Link } from '@inertiajs/react';
+import { ModeToggle } from '../mode-togle';
+
+// Sample cart items for demonstration
+const initialCartItems = [
+    {
+        id: 1,
+        name: 'Premium Noise-Cancelling Headphones',
+        price: 299.99,
+        quantity: 1,
+        image: '/placeholder.svg?height=80&width=80',
+    },
+    {
+        id: 2,
+        name: 'Smart Watch Ultra Series',
+        price: 429.99,
+        quantity: 1,
+        image: '/placeholder.svg?height=80&width=80',
+    },
 ];
 
 export default function ShopHeader() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [cartItems, setCartItems] = useState(initialCartItems);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [searchMobileOpen, setSearchMobileOpen] = useState(false);
 
-    // Cart and notification examples
-    const cartCount = 2;
-    const cartTotal = '$299.00';
-    const accountNotifications = 1;
-
+    // Track scroll position for styling changes
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10);
+            setIsScrolled(window.scrollY > 20);
         };
 
-        // Add scroll listener
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close search overlay when Escape key is pressed
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape' && searchMobileOpen) {
-                setSearchMobileOpen(false);
-            }
-        };
+    const updateQuantity = (id: number, increment: boolean) => {
+        setCartItems(
+            cartItems.map((item) => {
+                if (item.id === id) {
+                    return {
+                        ...item,
+                        quantity: increment
+                            ? item.quantity + 1
+                            : Math.max(1, item.quantity - 1),
+                    };
+                }
+                return item;
+            }),
+        );
+    };
 
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [searchMobileOpen]);
+    const removeItem = (id: number) => {
+        setCartItems(cartItems.filter((item) => item.id !== id));
+    };
+
+    const calculateTotal = () => {
+        return cartItems.reduce(
+            (total, item) => total + item.price * item.quantity,
+            0,
+        );
+    };
 
     return (
-        <header className="w-full">
-            <nav
-                className={cn(
-                    'flex w-full flex-col bg-white transition-all duration-300',
-                    isScrolled && 'shadow-md',
-                )}
-            >
-                {/* Main navigation bar */}
-                <div className="border-b border-gray-200">
-                    <div
-                        className={cn(
-                            'container mx-auto flex items-center justify-between px-4 py-3 transition-all duration-300',
-                            isScrolled && 'py-2',
-                        )}
-                    >
-                        {/* Mobile menu button */}
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-black hover:bg-gray-100 md:hidden"
-                            onClick={() => setIsMenuOpen(true)}
-                            aria-label="Open menu"
-                        >
-                            <Menu className="h-5 w-5" />
-                        </Button>
-
-                        {/* Logo */}
-                        <Link
-                            href="/"
-                            className="group flex items-center"
-                            aria-label="TailGrids home"
-                        >
-                            <div className="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-black p-1 transition-transform group-hover:scale-110">
-                                <span className="text-xl font-bold text-white">
-                                    SU
-                                </span>
-                            </div>
-                            <span className="text-xl font-bold">Simple UI</span>
-                        </Link>
-
-                        {/* Desktop search bar */}
-                        <div className="mx-6 hidden max-w-xl flex-1 md:flex">
-                            <div className="flex w-full overflow-hidden rounded-md border border-gray-300">
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            className="flex h-10 items-center rounded-r-none border-r border-gray-300 bg-gray-50 px-4 text-gray-700 hover:bg-gray-100"
-                                        >
-                                            All categories
-                                            <ChevronDown className="ml-2 h-4 w-4" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        align="start"
-                                        className="w-[200px]"
-                                    >
-                                        {CATEGORIES.map((category) => (
-                                            <DropdownMenuItem key={category}>
-                                                {category}
-                                            </DropdownMenuItem>
-                                        ))}
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                                <div className="relative flex-1">
-                                    <Input
-                                        placeholder="I'm shopping for..."
-                                        className="h-10 rounded-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                                    />
-                                    <Button
-                                        className="absolute top-0 right-0 h-full rounded-l-none bg-black transition-colors hover:bg-gray-800"
-                                        aria-label="Search"
-                                    >
-                                        <Search className="h-4 w-4 text-white" />
-                                    </Button>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right icons */}
-                        <div className="flex items-center gap-5">
-                            <Link
-                                href="/account"
-                                className="group relative flex items-center"
-                                aria-label="My account"
-                            >
-                                <div className="relative">
-                                    <User className="h-5 w-5 transition-transform group-hover:scale-110" />
-                                    {accountNotifications > 0 && (
-                                        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                                            {accountNotifications}
-                                        </span>
-                                    )}
-                                </div>
-                                <div className="ml-2 hidden flex-col md:flex">
-                                    <span className="text-xs">Login</span>
-                                    <span className="text-xs font-medium">
-                                        My Account
+        <header
+            className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
+                isScrolled
+                    ? 'bg-white shadow-md dark:bg-black'
+                    : 'bg-white dark:bg-black'
+            }`}
+        >
+            <div className="container mx-auto">
+                <div className="flex h-20 items-center justify-between px-4 md:px-6">
+                    {/* Logo Section */}
+                    <div className="flex items-center">
+                        <Link href="/" className="flex items-center">
+                            <div className="relative h-8 w-40">
+                                <div className="flex items-center">
+                                    <span className="text-3xl font-bold tracking-tight">
+                                        Simple UI
                                     </span>
-                                </div>
-                            </Link>
-
-                            <Link
-                                href="/cart"
-                                className="group flex items-center"
-                                aria-label="Shopping cart"
-                            >
-                                <div className="relative">
-                                    <ShoppingCart className="h-5 w-5 transition-transform group-hover:scale-110" />
-                                    {cartCount > 0 && (
-                                        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                                            {cartCount}
+                                    <div className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-white">
+                                        <span className="text-xs font-bold">
+                                            ★
                                         </span>
-                                    )}
+                                    </div>
                                 </div>
-                                <span className="ml-2 hidden text-xs font-medium md:block">
-                                    {cartTotal}
-                                </span>
-                            </Link>
-                        </div>
+                            </div>
+                        </Link>
                     </div>
-                </div>
 
-                {/* Category links - desktop */}
-                <div
-                    className={cn(
-                        'border-b border-gray-200 bg-white px-4 py-2 transition-all duration-300',
-                        isScrolled ? 'md:hidden' : 'block',
-                    )}
-                >
-                    <div className="container mx-auto">
-                        {/* Mobile search bar */}
-                        <div className="relative mb-1 w-full md:hidden">
+                    {/* Search bar - directly in the navbar */}
+                    <div className="mx-8 hidden max-w-xl flex-1 md:flex">
+                        <div className="relative flex w-full items-center">
+                            <Input
+                                type="search"
+                                placeholder="Search products, brands and categories"
+                                className="h-10 w-full rounded-r-none border-r-0"
+                            />
                             <Button
-                                variant="ghost"
-                                size="sm"
-                                className="flex w-full justify-start rounded-md py-1.5 pr-4 pl-3 text-gray-600 hover:bg-gray-100 hover:text-black"
-                                onClick={() => setSearchMobileOpen(true)}
+                                type="submit"
+                                className="h-10 rounded-l-none bg-orange-500 hover:bg-orange-600"
                             >
-                                <Search className="mr-2 h-4 w-4" />
-                                <span className="text-sm">
-                                    Search products...
-                                </span>
+                                Search
                             </Button>
                         </div>
-
-                        {/* Desktop category navigation */}
-                        <div className="hidden items-center justify-between md:flex">
-                            <div className="flex items-center space-x-8">
-                                {NAVIGATION_LINKS.map((link) => (
-                                    <Link
-                                        key={link.href}
-                                        href={link.href}
-                                        className="group relative py-1 text-sm font-medium transition-colors hover:text-gray-600"
-                                    >
-                                        {link.label}
-                                        <span className="absolute -bottom-[2px] left-0 h-[2px] w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
-                                    </Link>
-                                ))}
-                            </div>
-
-                            <div className="text-sm">
-                                <span className="text-gray-600">
-                                    Free shipping on orders over $50
-                                </span>
-                            </div>
-                        </div>
                     </div>
-                </div>
-            </nav>
 
-            {/* Mobile search overlay */}
-            {searchMobileOpen && (
-                <div className="fixed inset-0 z-50 animate-in bg-black/30 fade-in-0 md:hidden">
-                    <div className="fixed top-0 right-0 left-0 animate-in bg-white p-4 shadow-lg duration-300 slide-in-from-top">
-                        <div className="relative">
-                            <Input
-                                placeholder="Search products..."
-                                className="border-gray-300 pr-16 focus:border-black"
-                                autoFocus
-                            />
-                            <div className="absolute top-0 right-0 flex h-full items-center pr-2">
+                    {/* Actions */}
+                    <div className="flex items-center gap-1 md:gap-6">
+                        {/* Mode Toggle */}
+                        <ModeToggle />
+
+                        <Link
+                            href={login()}
+                            className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                        >
+                            Login
+                        </Link>
+
+                        {/* Shopping Cart */}
+                        <Sheet>
+                            <SheetTrigger asChild>
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="mr-1 h-8 w-8 text-gray-500 hover:bg-gray-100 hover:text-black"
-                                    onClick={() => setSearchMobileOpen(false)}
-                                    aria-label="Close search"
+                                    className="relative rounded-full"
                                 >
-                                    <X className="h-4 w-4" />
+                                    <ShoppingBag className="h-5 w-5" />
+                                    {cartItems.length > 0 && (
+                                        <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-medium text-white">
+                                            {cartItems.reduce(
+                                                (total, item) =>
+                                                    total + item.quantity,
+                                                0,
+                                            )}
+                                        </span>
+                                    )}
+                                    <span className="sr-only">
+                                        Shopping Cart
+                                    </span>
                                 </Button>
-                                <Button
-                                    className="h-8 w-8 rounded-md bg-black hover:bg-gray-800"
-                                    aria-label="Search"
-                                >
-                                    <Search className="h-4 w-4 text-white" />
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Mobile menu drawer */}
-            {isMenuOpen && (
-                <>
-                    <div
-                        className="fixed inset-0 z-50 animate-in bg-black/50 fade-in md:hidden"
-                        onClick={() => setIsMenuOpen(false)}
-                    />
-                    <div className="fixed inset-y-0 left-0 z-50 w-[280px] animate-in overflow-auto bg-white shadow-xl duration-300 slide-in-from-left md:hidden">
-                        <div className="flex h-full flex-col">
-                            <div className="flex items-center justify-between border-b border-gray-200 p-4">
-                                <div className="text-xl font-bold">
-                                    Simple UI
+                            </SheetTrigger>
+                            <SheetContent className="flex w-full flex-col sm:max-w-md">
+                                <SheetHeader className="border-b pb-4">
+                                    <SheetTitle className="text-xl">
+                                        Your Shopping Bag
+                                    </SheetTitle>
+                                </SheetHeader>
+                                <div className="flex-1 overflow-auto py-6">
+                                    {cartItems.length === 0 ? (
+                                        <div className="flex h-full flex-col items-center justify-center">
+                                            <ShoppingBag className="h-16 w-16 text-slate-300" />
+                                            <p className="mt-6 text-lg font-medium">
+                                                Your shopping bag is empty
+                                            </p>
+                                            <p className="mt-2 max-w-xs text-center text-sm text-slate-500">
+                                                Looks like you haven't added
+                                                anything to your bag yet.
+                                            </p>
+                                            <SheetClose asChild>
+                                                <Button className="mt-8 bg-orange-500 hover:bg-orange-600">
+                                                    Continue Shopping
+                                                </Button>
+                                            </SheetClose>
+                                        </div>
+                                    ) : (
+                                        <div className="grid gap-6">
+                                            {cartItems.map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="grid grid-cols-[80px_1fr] gap-4"
+                                                >
+                                                    <div className="aspect-square overflow-hidden rounded-md bg-slate-50">
+                                                        <img
+                                                            src={
+                                                                item.image ||
+                                                                '/placeholder.svg'
+                                                            }
+                                                            alt={item.name}
+                                                            width={80}
+                                                            height={80}
+                                                            className="h-full w-full object-cover"
+                                                        />
+                                                    </div>
+                                                    <div className="grid gap-1">
+                                                        <div className="flex items-start justify-between">
+                                                            <h3 className="leading-tight font-medium">
+                                                                {item.name}
+                                                            </h3>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                className="h-8 w-8 rounded-full"
+                                                                onClick={() =>
+                                                                    removeItem(
+                                                                        item.id,
+                                                                    )
+                                                                }
+                                                            >
+                                                                <X className="h-4 w-4" />
+                                                                <span className="sr-only">
+                                                                    Remove
+                                                                </span>
+                                                            </Button>
+                                                        </div>
+                                                        <p className="text-sm text-slate-500">
+                                                            $
+                                                            {item.price.toFixed(
+                                                                2,
+                                                            )}
+                                                        </p>
+                                                        <div className="mt-2 flex items-center gap-3">
+                                                            <div className="flex items-center rounded-full border">
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    className="h-8 w-8 rounded-full"
+                                                                    onClick={() =>
+                                                                        updateQuantity(
+                                                                            item.id,
+                                                                            false,
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <Minus className="h-3 w-3" />
+                                                                    <span className="sr-only">
+                                                                        Decrease
+                                                                        quantity
+                                                                    </span>
+                                                                </Button>
+                                                                <span className="w-8 text-center text-sm">
+                                                                    {
+                                                                        item.quantity
+                                                                    }
+                                                                </span>
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    className="h-8 w-8 rounded-full"
+                                                                    onClick={() =>
+                                                                        updateQuantity(
+                                                                            item.id,
+                                                                            true,
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <Plus className="h-3 w-3" />
+                                                                    <span className="sr-only">
+                                                                        Increase
+                                                                        quantity
+                                                                    </span>
+                                                                </Button>
+                                                            </div>
+                                                            <div className="ml-auto font-medium">
+                                                                $
+                                                                {(
+                                                                    item.price *
+                                                                    item.quantity
+                                                                ).toFixed(2)}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
+                                {cartItems.length > 0 && (
+                                    <SheetFooter className="border-t pt-6">
+                                        <div className="w-full space-y-4">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm text-slate-500">
+                                                    Subtotal
+                                                </span>
+                                                <span className="font-medium">
+                                                    $
+                                                    {calculateTotal().toFixed(
+                                                        2,
+                                                    )}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm text-slate-500">
+                                                    Shipping
+                                                </span>
+                                                <span className="font-medium">
+                                                    Calculated at checkout
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between border-t pt-4">
+                                                <span className="text-base font-semibold">
+                                                    Total
+                                                </span>
+                                                <span className="text-base font-semibold">
+                                                    $
+                                                    {calculateTotal().toFixed(
+                                                        2,
+                                                    )}
+                                                </span>
+                                            </div>
+                                            <div className="grid gap-2">
+                                                <Button className="w-full bg-orange-500 py-6 hover:bg-orange-600">
+                                                    Proceed to Checkout
+                                                </Button>
+                                                <SheetClose asChild>
+                                                    <Button
+                                                        variant="outline"
+                                                        className="w-full"
+                                                    >
+                                                        Continue Shopping
+                                                    </Button>
+                                                </SheetClose>
+                                            </div>
+                                            <p className="mt-4 text-center text-xs text-slate-500">
+                                                Shipping & taxes calculated at
+                                                checkout
+                                            </p>
+                                        </div>
+                                    </SheetFooter>
+                                )}
+                            </SheetContent>
+                        </Sheet>
+
+                        {/* Mobile menu button */}
+                        <Sheet>
+                            <SheetTrigger asChild>
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="text-black hover:bg-gray-100"
-                                    onClick={() => setIsMenuOpen(false)}
-                                    aria-label="Close menu"
+                                    className="md:hidden"
                                 >
-                                    <X className="h-5 w-5" />
-                                </Button>
-                            </div>
-
-                            <div className="border-b border-gray-200 p-4">
-                                <div className="relative">
-                                    <Input
-                                        placeholder="Search products..."
-                                        className="border-gray-300 pr-10"
-                                    />
-                                    <Button
-                                        className="absolute top-0 right-0 h-full rounded-l-none bg-black hover:bg-gray-800"
-                                        aria-label="Search"
+                                    <svg
+                                        width="18"
+                                        height="11"
+                                        viewBox="0 0 18 11"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
                                     >
-                                        <Search className="h-4 w-4 text-white" />
-                                    </Button>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col p-2">
-                                {NAVIGATION_LINKS.map((link) => (
-                                    <Link
-                                        key={link.href}
-                                        href={link.href}
-                                        className="rounded-md px-4 py-3 font-medium transition-colors hover:bg-gray-50"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        {link.label}
-                                    </Link>
-                                ))}
-                            </div>
-
-                            <div className="mt-auto border-t border-gray-200 p-4">
-                                <div className="flex flex-col space-y-3">
-                                    <Link
-                                        href="/account"
-                                        className="flex items-center rounded-md px-4 py-2 transition-colors hover:bg-gray-50"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        <User className="mr-3 h-5 w-5" />
-                                        <span>My Account</span>
-                                    </Link>
-                                    <Link
-                                        href="/orders"
-                                        className="flex items-center rounded-md px-4 py-2 transition-colors hover:bg-gray-50"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
+                                        <path
+                                            d="M0 0.5H18"
                                             stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            className="mr-3"
+                                            strokeWidth="1.5"
+                                        />
+                                        <path
+                                            d="M0 5.5H18"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                        />
+                                        <path
+                                            d="M0 10.5H18"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                        />
+                                    </svg>
+                                    <span className="sr-only">Menu</span>
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent side="left">
+                                <SheetHeader className="border-b pb-4">
+                                    <SheetTitle>Menu</SheetTitle>
+                                </SheetHeader>
+                                <div className="space-y-4 py-6">
+                                    <div className="relative">
+                                        <Search className="absolute top-2.5 left-3 h-4 w-4 text-slate-400" />
+                                        <Input
+                                            placeholder="Search"
+                                            className="pl-9"
+                                        />
+                                    </div>
+                                    <nav className="grid gap-2">
+                                        <Link
+                                            href="#"
+                                            className="flex items-center justify-between py-2 text-base font-medium"
                                         >
-                                            <rect
-                                                width="16"
-                                                height="20"
-                                                x="4"
-                                                y="2"
-                                                rx="2"
-                                            />
-                                            <path d="M9 22v-4h6v4" />
-                                            <path d="M8 6h.01" />
-                                            <path d="M16 6h.01" />
-                                            <path d="M12 6h.01" />
-                                            <path d="M12 10h.01" />
-                                            <path d="M12 14h.01" />
-                                            <path d="M16 10h.01" />
-                                            <path d="M16 14h.01" />
-                                            <path d="M8 10h.01" />
-                                            <path d="M8 14h.01" />
-                                        </svg>
-                                        <span>My Orders</span>
-                                    </Link>
+                                            New Arrivals{' '}
+                                            <ChevronDown className="h-4 w-4" />
+                                        </Link>
+                                        <Link
+                                            href="#"
+                                            className="flex items-center justify-between py-2 text-base font-medium"
+                                        >
+                                            Women{' '}
+                                            <ChevronDown className="h-4 w-4" />
+                                        </Link>
+                                        <Link
+                                            href="#"
+                                            className="flex items-center justify-between py-2 text-base font-medium"
+                                        >
+                                            Men{' '}
+                                            <ChevronDown className="h-4 w-4" />
+                                        </Link>
+                                        <Link
+                                            href="#"
+                                            className="flex items-center justify-between py-2 text-base font-medium"
+                                        >
+                                            Accessories{' '}
+                                            <ChevronDown className="h-4 w-4" />
+                                        </Link>
+                                        <Link
+                                            href="#"
+                                            className="flex items-center justify-between py-2 text-base font-medium"
+                                        >
+                                            Collections{' '}
+                                            <ChevronDown className="h-4 w-4" />
+                                        </Link>
+                                    </nav>
+                                    <div className="mt-6 border-t pt-4">
+                                        <nav className="grid gap-1">
+                                            <Link
+                                                href="#"
+                                                className="py-2 text-sm"
+                                            >
+                                                Account
+                                            </Link>
+                                            <Link
+                                                href="#"
+                                                className="py-2 text-sm"
+                                            >
+                                                Wishlist
+                                            </Link>
+                                            <Link
+                                                href="#"
+                                                className="py-2 text-sm"
+                                            >
+                                                Order Tracking
+                                            </Link>
+                                            <Link
+                                                href="#"
+                                                className="py-2 text-sm"
+                                            >
+                                                Help & Contact
+                                            </Link>
+                                        </nav>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </SheetContent>
+                        </Sheet>
                     </div>
-                </>
-            )}
-
-            {/* Space to prevent content from being hidden under the navbar */}
-            <div className="h-[80px] sm:h-[80px] md:h-[130px]"></div>
+                </div>
+            </div>
         </header>
     );
 }
