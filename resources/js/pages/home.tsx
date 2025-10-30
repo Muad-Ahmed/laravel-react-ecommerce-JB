@@ -1,10 +1,15 @@
+import ShopBanner from '../components/frontend/ShopBanner';
 import ShopFrontLayout from '../layouts/shop-front-layout';
 
 export default function home() {
     return (
         <div>
             <ShopFrontLayout>
-                <h2>welcome to my ecommerce</h2>
+                <div className="min-h-screen">
+                    <div className="container mx-auto max-w-6xl">
+                        <ShopBanner />
+                    </div>
+                </div>
             </ShopFrontLayout>
         </div>
     );
