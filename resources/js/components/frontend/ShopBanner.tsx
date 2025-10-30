@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import {
@@ -105,6 +104,16 @@ export default function ShopBanner(): JSX.Element {
     const slideDuration = 8000; // 8 seconds per slide
     const animationDuration = 700; // 700ms for transitions
 
+    const goToSlide = useCallback(
+        (index: number): void => {
+            if (isAnimating) return;
+            setIsAnimating(true);
+            setCurrentSlide(index);
+            setTimeout(() => setIsAnimating(false), animationDuration);
+        },
+        [isAnimating],
+    );
+
     // Reset timer when slide changes
     useEffect(() => {
         setProgress(0);
@@ -132,6 +141,10 @@ export default function ShopBanner(): JSX.Element {
             }
         };
     }, [currentSlide, isHovering, slideDuration]);
+    const goToNextSlide = useCallback((): void => {
+        const newIndex = (currentSlide + 1) % slideCount;
+        goToSlide(newIndex);
+    }, [currentSlide, goToSlide, slideCount]);
 
     // Auto-advance the carousel
     useEffect(() => {
@@ -150,32 +163,18 @@ export default function ShopBanner(): JSX.Element {
                 clearTimeout(autoPlayRef.current);
             }
         };
-    }, [currentSlide, isAnimating, isHovering]);
+    }, [currentSlide, isAnimating, isHovering, goToNextSlide]);
 
     // Navigation functions
-    const goToSlide = useCallback(
-        (index: number): void => {
-            if (isAnimating) return;
-            setIsAnimating(true);
-            setCurrentSlide(index);
-            setTimeout(() => setIsAnimating(false), animationDuration);
-        },
-        [isAnimating],
-    );
 
     const goToPrevSlide = useCallback((): void => {
         const newIndex = (currentSlide - 1 + slideCount) % slideCount;
         goToSlide(newIndex);
     }, [currentSlide, goToSlide, slideCount]);
 
-    const goToNextSlide = useCallback((): void => {
-        const newIndex = (currentSlide + 1) % slideCount;
-        goToSlide(newIndex);
-    }, [currentSlide, goToSlide, slideCount]);
-
     return (
         <section
-            className="relative mt-8  h-screen max-h-[400px] min-h-[100px] w-full overflow-hidden rounded-2xl border-2 border-gray-300 shadow"
+            className="relative mt-8 h-screen max-h-[400px] min-h-[100px] w-full overflow-hidden rounded-2xl border-2 border-gray-300 shadow"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
         >
@@ -307,7 +306,7 @@ export default function ShopBanner(): JSX.Element {
             {/* Enhanced navigation arrows */}
             <button
                 onClick={goToPrevSlide}
-                className="absolute top-1/2 cursor-pointer left-4 z-20 -translate-y-1/2 rounded-full border border-white/60 bg-white/30 p-3 text-gray-800 shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-white hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:outline-none md:left-8 md:p-4"
+                className="absolute top-1/2 left-4 z-20 -translate-y-1/2 cursor-pointer rounded-full border border-white/60 bg-white/30 p-3 text-gray-800 shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-white hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:outline-none md:left-8 md:p-4"
                 aria-label="Previous slide"
                 type="button"
             >
@@ -316,7 +315,7 @@ export default function ShopBanner(): JSX.Element {
 
             <button
                 onClick={goToNextSlide}
-                className="absolute top-1/2 cursor-pointer right-4 z-20 -translate-y-1/2 rounded-full border border-white/60 bg-white/30 p-3 text-gray-800 shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-white hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:outline-none md:right-8 md:p-4"
+                className="absolute top-1/2 right-4 z-20 -translate-y-1/2 cursor-pointer rounded-full border border-white/60 bg-white/30 p-3 text-gray-800 shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-white hover:shadow-xl focus:ring-2 focus:ring-blue-500 focus:outline-none md:right-8 md:p-4"
                 aria-label="Next slide"
                 type="button"
             >
@@ -341,7 +340,7 @@ export default function ShopBanner(): JSX.Element {
                             <button
                                 key={index}
                                 onClick={() => goToSlide(index)}
-                                className={`h-2 rounded-full cursor-pointer transition-all duration-300 focus:outline-none ${
+                                className={`h-2 cursor-pointer rounded-full transition-all duration-300 focus:outline-none ${
                                     currentSlide === index
                                         ? 'w-8 bg-blue-600'
                                         : 'w-2 bg-white/50 hover:bg-white/80'
