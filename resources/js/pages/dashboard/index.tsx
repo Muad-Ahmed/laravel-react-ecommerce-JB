@@ -11,7 +11,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -21,8 +28,24 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ArrowRight, BarChart3, ChevronDown, DollarSign, MoreHorizontal, Package2, Search, Users } from 'lucide-react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import {
+    ArrowRight,
+    BarChart3,
+    ChevronDown,
+    DollarSign,
+    MoreHorizontal,
+    Package2,
+    Search,
+    Users,
+} from 'lucide-react';
 
 // Dummy data
 const analyticsData = {
@@ -33,15 +56,63 @@ const analyticsData = {
 };
 
 const recentProducts = [
-    { id: 1, name: 'Ergonomic Chair', category: 'Furniture', price: 199.99, stock: 24, status: 'In Stock', image: '/api/placeholder/60/60' },
-    { id: 2, name: 'MacBook Pro M3', category: 'Electronics', price: 1999.99, stock: 12, status: 'Low Stock', image: '/api/placeholder/60/60' },
-    { id: 3, name: 'Wireless Earbuds', category: 'Audio', price: 129.99, stock: 45, status: 'In Stock', image: '/api/placeholder/60/60' },
-    { id: 4, name: 'Office Desk', category: 'Furniture', price: 349.99, stock: 8, status: 'Low Stock', image: '/api/placeholder/60/60' },
-    { id: 5, name: 'Smart Watch Series 8', category: 'Wearables', price: 399.99, stock: 0, status: 'Out of Stock', image: '/api/placeholder/60/60' },
+    {
+        id: 1,
+        name: 'Ergonomic Chair',
+        category: 'Furniture',
+        price: 199.99,
+        stock: 24,
+        status: 'In Stock',
+        image: '/api/placeholder/60/60',
+    },
+    {
+        id: 2,
+        name: 'MacBook Pro M3',
+        category: 'Electronics',
+        price: 1999.99,
+        stock: 12,
+        status: 'Low Stock',
+        image: '/api/placeholder/60/60',
+    },
+    {
+        id: 3,
+        name: 'Wireless Earbuds',
+        category: 'Audio',
+        price: 129.99,
+        stock: 45,
+        status: 'In Stock',
+        image: '/api/placeholder/60/60',
+    },
+    {
+        id: 4,
+        name: 'Office Desk',
+        category: 'Furniture',
+        price: 349.99,
+        stock: 8,
+        status: 'Low Stock',
+        image: '/api/placeholder/60/60',
+    },
+    {
+        id: 5,
+        name: 'Smart Watch Series 8',
+        category: 'Wearables',
+        price: 399.99,
+        stock: 0,
+        status: 'Out of Stock',
+        image: '/api/placeholder/60/60',
+    },
 ];
 
 const recentSales = [
-    { id: 1, customer: 'John Doe', email: 'john@example.com', product: 'Ergonomic Chair', date: '2025-04-24', amount: 199.99, status: 'Completed' },
+    {
+        id: 1,
+        customer: 'John Doe',
+        email: 'john@example.com',
+        product: 'Ergonomic Chair',
+        date: '2025-04-24',
+        amount: 199.99,
+        status: 'Completed',
+    },
     {
         id: 2,
         customer: 'Jane Smith',
@@ -60,7 +131,15 @@ const recentSales = [
         amount: 129.99,
         status: 'Completed',
     },
-    { id: 4, customer: 'Emily Davis', email: 'emily@example.com', product: 'Office Desk', date: '2025-04-21', amount: 349.99, status: 'Completed' },
+    {
+        id: 4,
+        customer: 'Emily Davis',
+        email: 'emily@example.com',
+        product: 'Office Desk',
+        date: '2025-04-21',
+        amount: 349.99,
+        status: 'Completed',
+    },
     {
         id: 5,
         customer: 'Michael Wilson',
@@ -86,8 +165,12 @@ const Dashboard = () => {
             <Head title="Dashboard" />
             <div className="min-h-screen bg-gray-50 p-6">
                 <div className="mb-8">
-                    <h1 className="mb-2 text-3xl font-bold text-gray-900">Dashboard</h1>
-                    <p className="text-gray-500">Welcome back! Here's an overview of your store.</p>
+                    <h1 className="mb-2 text-3xl font-bold text-gray-900">
+                        Dashboard
+                    </h1>
+                    <p className="text-gray-500">
+                        Welcome back! Here's an overview of your store.
+                    </p>
                 </div>
 
                 {/* Analytics Cards */}
@@ -96,18 +179,29 @@ const Dashboard = () => {
                     <Card className="shadow-sm transition-shadow hover:shadow-md">
                         <CardHeader className="pb-2">
                             <div className="flex items-center justify-between">
-                                <CardTitle className="text-sm font-medium text-gray-500">Total Products</CardTitle>
+                                <CardTitle className="text-sm font-medium text-gray-500">
+                                    Total Products
+                                </CardTitle>
                                 <div className="rounded-lg bg-blue-100 p-2">
-                                    <Package2 size={18} className="text-blue-600" />
+                                    <Package2
+                                        size={18}
+                                        className="text-blue-600"
+                                    />
                                 </div>
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{analyticsData.totalProducts}</div>
+                            <div className="text-2xl font-bold">
+                                {analyticsData.totalProducts}
+                            </div>
                         </CardContent>
                         <CardFooter className="pt-0">
-                            <Button variant="link" className="flex h-auto items-center p-0 text-blue-600">
-                                View details <ArrowRight size={16} className="ml-1" />
+                            <Button
+                                variant="link"
+                                className="flex h-auto items-center p-0 text-blue-600"
+                            >
+                                View details{' '}
+                                <ArrowRight size={16} className="ml-1" />
                             </Button>
                         </CardFooter>
                     </Card>
@@ -116,18 +210,29 @@ const Dashboard = () => {
                     <Card className="shadow-sm transition-shadow hover:shadow-md">
                         <CardHeader className="pb-2">
                             <div className="flex items-center justify-between">
-                                <CardTitle className="text-sm font-medium text-gray-500">Total Users</CardTitle>
+                                <CardTitle className="text-sm font-medium text-gray-500">
+                                    Total Users
+                                </CardTitle>
                                 <div className="rounded-lg bg-green-100 p-2">
-                                    <Users size={18} className="text-green-600" />
+                                    <Users
+                                        size={18}
+                                        className="text-green-600"
+                                    />
                                 </div>
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{analyticsData.totalUsers}</div>
+                            <div className="text-2xl font-bold">
+                                {analyticsData.totalUsers}
+                            </div>
                         </CardContent>
                         <CardFooter className="pt-0">
-                            <Button variant="link" className="flex h-auto items-center p-0 text-green-600">
-                                View details <ArrowRight size={16} className="ml-1" />
+                            <Button
+                                variant="link"
+                                className="flex h-auto items-center p-0 text-green-600"
+                            >
+                                View details{' '}
+                                <ArrowRight size={16} className="ml-1" />
                             </Button>
                         </CardFooter>
                     </Card>
@@ -136,18 +241,29 @@ const Dashboard = () => {
                     <Card className="shadow-sm transition-shadow hover:shadow-md">
                         <CardHeader className="pb-2">
                             <div className="flex items-center justify-between">
-                                <CardTitle className="text-sm font-medium text-gray-500">Total Categories</CardTitle>
+                                <CardTitle className="text-sm font-medium text-gray-500">
+                                    Total Categories
+                                </CardTitle>
                                 <div className="rounded-lg bg-purple-100 p-2">
-                                    <BarChart3 size={18} className="text-purple-600" />
+                                    <BarChart3
+                                        size={18}
+                                        className="text-purple-600"
+                                    />
                                 </div>
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{analyticsData.totalCategories}</div>
+                            <div className="text-2xl font-bold">
+                                {analyticsData.totalCategories}
+                            </div>
                         </CardContent>
                         <CardFooter className="pt-0">
-                            <Button variant="link" className="flex h-auto items-center p-0 text-purple-600">
-                                View details <ArrowRight size={16} className="ml-1" />
+                            <Button
+                                variant="link"
+                                className="flex h-auto items-center p-0 text-purple-600"
+                            >
+                                View details{' '}
+                                <ArrowRight size={16} className="ml-1" />
                             </Button>
                         </CardFooter>
                     </Card>
@@ -156,18 +272,31 @@ const Dashboard = () => {
                     <Card className="shadow-sm transition-shadow hover:shadow-md">
                         <CardHeader className="pb-2">
                             <div className="flex items-center justify-between">
-                                <CardTitle className="text-sm font-medium text-gray-500">Total Inventory Value</CardTitle>
+                                <CardTitle className="text-sm font-medium text-gray-500">
+                                    Total Inventory Value
+                                </CardTitle>
                                 <div className="rounded-lg bg-amber-100 p-2">
-                                    <DollarSign size={18} className="text-amber-600" />
+                                    <DollarSign
+                                        size={18}
+                                        className="text-amber-600"
+                                    />
                                 </div>
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{formatCurrency(analyticsData.totalInventoryValue)}</div>
+                            <div className="text-2xl font-bold">
+                                {formatCurrency(
+                                    analyticsData.totalInventoryValue,
+                                )}
+                            </div>
                         </CardContent>
                         <CardFooter className="pt-0">
-                            <Button variant="link" className="flex h-auto items-center p-0 text-amber-600">
-                                View details <ArrowRight size={16} className="ml-1" />
+                            <Button
+                                variant="link"
+                                className="flex h-auto items-center p-0 text-amber-600"
+                            >
+                                View details{' '}
+                                <ArrowRight size={16} className="ml-1" />
                             </Button>
                         </CardFooter>
                     </Card>
@@ -182,12 +311,17 @@ const Dashboard = () => {
                                 <div className="flex gap-2">
                                     <div className="relative">
                                         <Search className="absolute top-2.5 left-2 h-4 w-4 text-gray-500" />
-                                        <Input placeholder="Search products..." className="w-64 pl-8" />
+                                        <Input
+                                            placeholder="Search products..."
+                                            className="w-64 pl-8"
+                                        />
                                     </div>
                                     <Button>Add Product</Button>
                                 </div>
                             </div>
-                            <CardDescription>A list of your recent products</CardDescription>
+                            <CardDescription>
+                                A list of your recent products
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <Table>
@@ -206,19 +340,33 @@ const Dashboard = () => {
                                         <TableRow key={product.id}>
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
-                                                    <img src={product.image} alt={product.name} className="h-10 w-10 rounded-md object-cover" />
-                                                    <span className="font-medium">{product.name}</span>
+                                                    <img
+                                                        src={product.image}
+                                                        alt={product.name}
+                                                        className="h-10 w-10 rounded-md object-cover"
+                                                    />
+                                                    <span className="font-medium">
+                                                        {product.name}
+                                                    </span>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>{product.category}</TableCell>
-                                            <TableCell>{formatCurrency(product.price)}</TableCell>
-                                            <TableCell>{product.stock}</TableCell>
+                                            <TableCell>
+                                                {product.category}
+                                            </TableCell>
+                                            <TableCell>
+                                                {formatCurrency(product.price)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {product.stock}
+                                            </TableCell>
                                             <TableCell>
                                                 <Badge
                                                     className={
-                                                        product.status === 'In Stock'
+                                                        product.status ===
+                                                        'In Stock'
                                                             ? 'bg-green-100 text-green-800 hover:bg-green-100'
-                                                            : product.status === 'Low Stock'
+                                                            : product.status ===
+                                                                'Low Stock'
                                                               ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-100'
                                                               : 'bg-red-100 text-red-800 hover:bg-red-100'
                                                     }
@@ -228,17 +376,30 @@ const Dashboard = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" size="icon">
+                                                    <DropdownMenuTrigger
+                                                        asChild
+                                                    >
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                        >
                                                             <MoreHorizontal className="h-4 w-4" />
                                                         </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>View details</DropdownMenuItem>
+                                                        <DropdownMenuLabel>
+                                                            Actions
+                                                        </DropdownMenuLabel>
+                                                        <DropdownMenuItem>
+                                                            Edit
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem>
+                                                            View details
+                                                        </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                                                        <DropdownMenuItem className="text-red-600">
+                                                            Delete
+                                                        </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>
@@ -248,7 +409,10 @@ const Dashboard = () => {
                             </Table>
                         </CardContent>
                         <CardFooter className="flex justify-between">
-                            <div className="text-sm text-gray-500">Showing 5 of {analyticsData.totalProducts} products</div>
+                            <div className="text-sm text-gray-500">
+                                Showing 5 of {analyticsData.totalProducts}{' '}
+                                products
+                            </div>
                             <div className="flex gap-2">
                                 <Button variant="outline" size="sm" disabled>
                                     Previous
@@ -270,7 +434,10 @@ const Dashboard = () => {
                                 <div className="flex gap-2">
                                     <div className="relative">
                                         <Search className="absolute top-2.5 left-2 h-4 w-4 text-gray-500" />
-                                        <Input placeholder="Search sales..." className="w-64 pl-8" />
+                                        <Input
+                                            placeholder="Search sales..."
+                                            className="w-64 pl-8"
+                                        />
                                     </div>
                                     <Button variant="outline">
                                         Filter
@@ -278,7 +445,9 @@ const Dashboard = () => {
                                     </Button>
                                 </div>
                             </div>
-                            <CardDescription>A list of your recent sales</CardDescription>
+                            <CardDescription>
+                                A list of your recent sales
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <Table>
@@ -297,19 +466,29 @@ const Dashboard = () => {
                                         <TableRow key={sale.id}>
                                             <TableCell>
                                                 <div>
-                                                    <div className="font-medium">{sale.customer}</div>
-                                                    <div className="text-sm text-gray-500">{sale.email}</div>
+                                                    <div className="font-medium">
+                                                        {sale.customer}
+                                                    </div>
+                                                    <div className="text-sm text-gray-500">
+                                                        {sale.email}
+                                                    </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>{sale.product}</TableCell>
+                                            <TableCell>
+                                                {sale.product}
+                                            </TableCell>
                                             <TableCell>{sale.date}</TableCell>
-                                            <TableCell>{formatCurrency(sale.amount)}</TableCell>
+                                            <TableCell>
+                                                {formatCurrency(sale.amount)}
+                                            </TableCell>
                                             <TableCell>
                                                 <Badge
                                                     className={
-                                                        sale.status === 'Completed'
+                                                        sale.status ===
+                                                        'Completed'
                                                             ? 'bg-green-100 text-green-800 hover:bg-green-100'
-                                                            : sale.status === 'Processing'
+                                                            : sale.status ===
+                                                                'Processing'
                                                               ? 'bg-blue-100 text-blue-800 hover:bg-blue-100'
                                                               : 'bg-red-100 text-red-800 hover:bg-red-100'
                                                     }
@@ -319,17 +498,30 @@ const Dashboard = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" size="icon">
+                                                    <DropdownMenuTrigger
+                                                        asChild
+                                                    >
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                        >
                                                             <MoreHorizontal className="h-4 w-4" />
                                                         </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>View details</DropdownMenuItem>
-                                                        <DropdownMenuItem>Send invoice</DropdownMenuItem>
+                                                        <DropdownMenuLabel>
+                                                            Actions
+                                                        </DropdownMenuLabel>
+                                                        <DropdownMenuItem>
+                                                            View details
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem>
+                                                            Send invoice
+                                                        </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem className="text-red-600">Cancel order</DropdownMenuItem>
+                                                        <DropdownMenuItem className="text-red-600">
+                                                            Cancel order
+                                                        </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>
@@ -339,7 +531,9 @@ const Dashboard = () => {
                             </Table>
                         </CardContent>
                         <CardFooter className="flex justify-between">
-                            <div className="text-sm text-gray-500">Showing 5 recent sales</div>
+                            <div className="text-sm text-gray-500">
+                                Showing 5 recent sales
+                            </div>
                             <div className="flex gap-2">
                                 <Button variant="outline" size="sm" disabled>
                                     Previous
