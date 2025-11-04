@@ -6,7 +6,7 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 // Home Page Route
-Route::get('/', [HomeController::class , 'get_home_data'])->name('home');
+Route::get('/', [HomeController::class, 'get_home_data'])->name('home');
 
 // Product Detail Page Route
 Route::get('/detail', function () {

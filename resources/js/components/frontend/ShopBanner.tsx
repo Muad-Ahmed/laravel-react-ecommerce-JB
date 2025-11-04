@@ -174,7 +174,7 @@ export default function ShopBanner(): JSX.Element {
 
     return (
         <section
-            className="relative mt-8 h-screen max-h-[400px] min-h-[100px] w-full overflow-hidden rounded-2xl border-2 border-gray-300 shadow"
+            className="relative mt-8 h-screen max-h-[400px] min-h-[100px] w-full overflow-hidden rounded-2xl border-2 border-gray-300 bg-gray-200 shadow"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
         >
