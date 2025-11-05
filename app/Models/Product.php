@@ -40,4 +40,12 @@ class Product extends Model
     {
         return $this->belongsto(Category::class);
     }
+
+    public function scopeSimilar($query, $productId)
+    {
+        $product = static::findOrFail($productId);
+
+        return  $query->where('category_id', $product->category_id)
+            ->where('id', '!=', $productId);
+    }
 }
