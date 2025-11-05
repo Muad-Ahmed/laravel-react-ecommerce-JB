@@ -1,17 +1,19 @@
 <?php
 
+use App\Http\Controllers\Shop\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
-Route::get('/', function () {
-    return Inertia::render('home');
-})->name('home');
+// Home Page Route
+Route::get('/', [HomeController::class, 'get_home_data'])->name('home');
 
+// Product Detail Page Route
 Route::get('/detail', function () {
     return Inertia::render('product-details');
 })->name('detail');
 
+// 'auth' and 'verified' middleware routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard/index');

@@ -1,5 +1,4 @@
 'use client';
-import SimilarProducts from '@/components/frontend/SimillarProducts';
 import ShopFrontLayout from '@/layouts/shop-front-layout';
 import { SimilarProduct } from '@/types/products';
 // ProductDetail.tsx
@@ -92,7 +91,13 @@ interface Product {
 //     },
 // ];
 
-const ProductDetails = ({ product, similarProducts }: { product: Product; similarProducts: SimilarProduct }) => {
+const ProductDetails = ({
+    product,
+    similarProducts,
+}: {
+    product: Product;
+    similarProducts: SimilarProduct;
+}) => {
     console.log(product, similarProducts);
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedColor, setSelectedColor] = useState(0);
@@ -116,7 +121,9 @@ const ProductDetails = ({ product, similarProducts }: { product: Product; simila
                         Chairs
                     </a>
                     <ChevronRight className="mx-2 h-4 w-4 self-center text-gray-400" />
-                    <span className="font-medium text-gray-900">{product.name}</span>
+                    <span className="font-medium text-gray-900">
+                        {product.name}
+                    </span>
                 </nav>
 
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
@@ -139,10 +146,17 @@ const ProductDetails = ({ product, similarProducts }: { product: Product; simila
                                         key={index}
                                         onClick={() => setSelectedImage(index)}
                                         className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg ${
-                                            selectedImage === index ? 'ring-2 ring-indigo-600' : 'ring-1 ring-gray-200'
+                                            selectedImage === index
+                                                ? 'ring-2 ring-indigo-600'
+                                                : 'ring-1 ring-gray-200'
                                         }`}
                                     >
-                                        <img src={imagePath} alt={`${product.name} - View ${index + 1}`} className="object-cover" sizes="80px" />
+                                        <img
+                                            src={imagePath}
+                                            alt={`${product.name} - View ${index + 1}`}
+                                            className="object-cover"
+                                            sizes="80px"
+                                        />
                                     </button>
                                 );
                             })}
@@ -152,7 +166,9 @@ const ProductDetails = ({ product, similarProducts }: { product: Product; simila
                     {/* Product Info */}
                     <div className="flex flex-col space-y-6">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+                            <h1 className="text-3xl font-bold text-gray-900">
+                                {product.name}
+                            </h1>
                             {/* <div className="mt-2 flex items-center">
                                 <div className="flex items-center">
                                     {[...Array(5)].map((_, i) => (
@@ -177,15 +193,25 @@ const ProductDetails = ({ product, similarProducts }: { product: Product; simila
                         <div className="border-t border-b py-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-3xl font-bold text-gray-900">${product.price}</p>
+                                    <p className="text-3xl font-bold text-gray-900">
+                                        ${product.price}
+                                    </p>
                                     {product.originalPrice && (
-                                        <p className="text-sm text-gray-500 line-through">${product.originalPrice.toFixed(2)}</p>
+                                        <p className="text-sm text-gray-500 line-through">
+                                            ${product.originalPrice.toFixed(2)}
+                                        </p>
                                     )}
                                 </div>
                                 <div className="flex items-center">
-                                    <div className={`h-3 w-3 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'} mr-2`}></div>
-                                    <p className={`text-sm ${product.inStock ? 'text-green-700' : 'text-red-700'}`}>
-                                        {product.inStock ? 'In Stock' : 'Out of Stock'}
+                                    <div
+                                        className={`h-3 w-3 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'} mr-2`}
+                                    ></div>
+                                    <p
+                                        className={`text-sm ${product.inStock ? 'text-green-700' : 'text-red-700'}`}
+                                    >
+                                        {product.inStock
+                                            ? 'In Stock'
+                                            : 'Out of Stock'}
                                     </p>
                                 </div>
                             </div>
@@ -193,7 +219,9 @@ const ProductDetails = ({ product, similarProducts }: { product: Product; simila
 
                         <div className="space-y-6">
                             <div>
-                                <h3 className="text-sm font-medium text-gray-900">Color</h3>
+                                <h3 className="text-sm font-medium text-gray-900">
+                                    Color
+                                </h3>
                                 <div className="mt-2 flex space-x-3">
                                     {product.colors.map((colorStr, index) => {
                                         const color = {
@@ -203,13 +231,23 @@ const ProductDetails = ({ product, similarProducts }: { product: Product; simila
                                         return (
                                             <button
                                                 key={index}
-                                                onClick={() => setSelectedColor(index)}
+                                                onClick={() =>
+                                                    setSelectedColor(index)
+                                                }
                                                 className={`relative h-10 w-10 rounded-full ${
-                                                    selectedColor === index ? 'ring-2 ring-indigo-600 ring-offset-2' : ''
+                                                    selectedColor === index
+                                                        ? 'ring-2 ring-indigo-600 ring-offset-2'
+                                                        : ''
                                                 }`}
                                                 title={color.name}
                                             >
-                                                <span className="absolute inset-0 rounded-full" style={{ backgroundColor: color.value }}></span>
+                                                <span
+                                                    className="absolute inset-0 rounded-full"
+                                                    style={{
+                                                        backgroundColor:
+                                                            color.value,
+                                                    }}
+                                                ></span>
                                             </button>
                                         );
                                     })}
@@ -217,16 +255,29 @@ const ProductDetails = ({ product, similarProducts }: { product: Product; simila
                             </div>
 
                             <div>
-                                <h3 className="text-sm font-medium text-gray-900">Quantity</h3>
+                                <h3 className="text-sm font-medium text-gray-900">
+                                    Quantity
+                                </h3>
                                 <div className="mt-2 flex w-32 items-center rounded-md border border-gray-200">
                                     <button
-                                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                                        onClick={() =>
+                                            setQuantity(
+                                                Math.max(1, quantity - 1),
+                                            )
+                                        }
                                         className="px-3 py-2 text-gray-500 hover:text-gray-700"
                                     >
                                         -
                                     </button>
-                                    <span className="flex-1 text-center">{quantity}</span>
-                                    <button onClick={() => setQuantity(quantity + 1)} className="px-3 py-2 text-gray-500 hover:text-gray-700">
+                                    <span className="flex-1 text-center">
+                                        {quantity}
+                                    </span>
+                                    <button
+                                        onClick={() =>
+                                            setQuantity(quantity + 1)
+                                        }
+                                        className="px-3 py-2 text-gray-500 hover:text-gray-700"
+                                    >
                                         +
                                     </button>
                                 </div>
@@ -249,18 +300,29 @@ const ProductDetails = ({ product, similarProducts }: { product: Product; simila
                         </div>
 
                         <div className="border-t pt-4">
-                            <h3 className="text-sm font-medium text-gray-900">Product Description</h3>
-                            <p className="mt-2 leading-relaxed text-gray-600">{product.description}</p>
+                            <h3 className="text-sm font-medium text-gray-900">
+                                Product Description
+                            </h3>
+                            <p className="mt-2 leading-relaxed text-gray-600">
+                                {product.description}
+                            </p>
                         </div>
 
                         <div>
-                            <h3 className="text-sm font-medium text-gray-900">Features</h3>
+                            <h3 className="text-sm font-medium text-gray-900">
+                                Features
+                            </h3>
                             <ul className="mt-2 space-y-2">
                                 {product.features.map((feature, index) => {
                                     return (
-                                        <li key={index} className="flex items-start">
+                                        <li
+                                            key={index}
+                                            className="flex items-start"
+                                        >
                                             <Check className="mr-2 h-5 w-5 flex-shrink-0 text-green-500" />
-                                            <span className="text-gray-600">{feature}</span>
+                                            <span className="text-gray-600">
+                                                {feature}
+                                            </span>
                                         </li>
                                     );
                                 })}
