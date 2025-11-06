@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard/products/index');
     })->name('products');
 
+    Route::get('/dashboard/categories',[CategoryController::class,'list_categories'] )->name('dashboard.categories.index');
     Route::post('/dashboard/categories', [CategoryController::class, 'save_category'])->name('dashboard.categories.save');
 });
 
