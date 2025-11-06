@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::get('/dashboard/products', [ProductController::class, 'list_products'])->name('dashboard.products.index');
+    Route::post('/dashboard/products', [ProductController::class, 'save_product'])->name('dashboard.products.save');
 
 
     Route::get('/dashboard/categories', [CategoryController::class, 'list_categories'])->name('dashboard.categories.index');
