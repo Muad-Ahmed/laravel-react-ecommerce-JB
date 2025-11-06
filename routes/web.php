@@ -10,10 +10,8 @@ use Laravel\Fortify\Features;
 // Home Page Route
 Route::get('/', [HomeController::class, 'get_home_data'])->name('home');
 
-// Product Detail Page Route
-Route::get('/detail', function () {
-    return Inertia::render('product-details');
-})->name('detail');
+// Route for product details (using Slug)
+Route::get('/products/{slug}', [HomeController::class, 'show_detail'])->name('detail');
 
 // 'auth' and 'verified' middleware routes
 Route::middleware(['auth', 'verified'])->group(function () {
