@@ -1,25 +1,30 @@
+import { ProductItem } from '@/types/products';
 import ProductListing from '../components/frontend/ProductListing';
 import ShopBanner from '../components/frontend/ShopBanner';
 import ShopCategories from '../components/frontend/ShopCategories';
 import ShopFrontLayout from '../layouts/shop-front-layout';
 import { CategoryItem } from '../types/categories';
 
-export default function home({categories} : {categories : CategoryItem[]}) {
+export default function home({
+    categories,
+    products,
+}: {
+    categories: CategoryItem[];
+    products: ProductItem[];
+}) {
     return (
-        <div>
-            <ShopFrontLayout>
-                <div className="min-h-screen">
-                    <div className="container mx-auto max-w-6xl">
-                        <ShopBanner />
-                        <div className="py-16">
-                            <ShopCategories categories={categories}/>
-                        </div>
-                        <div className="py-8">
-                            <ProductListing/>
-                        </div>
+        <ShopFrontLayout>
+            <div className="min-h-screen">
+                <div className="container mx-auto max-w-6xl">
+                    <ShopBanner />
+                    <div className="py-16">
+                        <ShopCategories categories={categories} />
+                    </div>
+                    <div className="py-8">
+                        <ProductListing products={products} />
                     </div>
                 </div>
-            </ShopFrontLayout>
-        </div>
+            </div>
+        </ShopFrontLayout>
     );
 }
